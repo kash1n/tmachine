@@ -1,0 +1,54 @@
+; Compares two unary numbers. 
+; Returns 0 if first > second and 1 otherwise.
+; Input: two unary numbers separated by 0, eg '111011'
+
+; Machine starts in state 0.
+
+0 _ _ l q1
+0 1 1 r 0
+0 0 0 r 0
+
+q1 1 1 l q2
+
+q2 1 1 r q3
+q2 0 0 l q11
+
+q3 1 _ l q4
+
+q4 1 1 l q4
+q4 0 0 l q5
+
+q5 1 1 l q6
+
+q6 _ _ * le
+q6 1 1 l q7
+
+q7 _ _ r q8
+q7 1 1 l q7
+
+q8 1 _ r q9
+
+q9 1 1 r q9
+q9 0 0 r q10
+
+q10 1 1 r q10
+q10 _ _ l q1
+
+q11 1 1 l q12
+
+q12 _ _ * le
+q12 1 1 * gt
+
+le 0 0 l le
+le 1 1 l le
+le _ _ r ler
+ler 0 _ r ler
+ler 1 _ r ler
+ler _ 1 * halt
+
+gt 0 0 l gt
+gt 1 1 l gt
+gt _ _ r gtr
+gtr 0 _ r gtr
+gtr 1 _ r gtr
+gtr _ 0 * halt
