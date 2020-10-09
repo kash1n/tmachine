@@ -1,5 +1,5 @@
 # tmachine
 Turing machine emulator
 
-Build: make
+Build: make\n
 Run: ./a.out <file_with_commands> <initial_input>
