@@ -90,30 +90,32 @@ void tmachine::set_input (const std::string input_data)
 
 void tmachine::run ()
 {
-  printf ("\nCurrent state: %s\n", m_current_state.c_str ());
-  printf ("Step: %d\n", m_total_steps);
-  for (int i = 0; i < (int) m_strip.size (); i++)
-    printf ("_");
-  printf ("\n");
-  printf ("%s\n", m_strip.c_str ());
-  for (int i = 0; i < m_current_pos; i++)
-    printf (" ");
-  printf ("^\n");
-
-  if (m_current_state == HALT_STATE)
-    return;
-  command_t curr_command;
-  if (!find_command (curr_command))
+  while (true)
     {
-      printf ("TM : cannot find command for state \'%s\' and symbol \'%c\'!\n", m_current_state.c_str (), m_strip[m_current_pos]);
-      return;
+      printf ("\nCurrent state: %s\n", m_current_state.c_str ());
+      printf ("Step: %d\n", m_total_steps);
+      for (int i = 0; i < (int) m_strip.size (); i++)
+        printf ("_");
+      printf ("\n");
+      printf ("%s\n", m_strip.c_str ());
+      for (int i = 0; i < m_current_pos; i++)
+        printf (" ");
+      printf ("^\n");
+
+      if (m_current_state == HALT_STATE)
+        break;
+      command_t curr_command;
+      if (!find_command (curr_command))
+        {
+          printf ("TM : cannot find command for state \'%s\' and symbol \'%c\'!\n", m_current_state.c_str (), m_strip[m_current_pos]);
+          break;
+        }
+      if (curr_command.symbol_after != '*')
+        m_strip[m_current_pos] = curr_command.symbol_after;
+      m_current_state = curr_command.state_after;
+      move (curr_command.dir);
+      m_total_steps++;
     }
-  if (curr_command.symbol_after != '*')
-    m_strip[m_current_pos] = curr_command.symbol_after;
-  m_current_state = curr_command.state_after;
-  move (curr_command.dir);
-  m_total_steps++;
-  run ();
 }
 
 bool tmachine::find_command (command_t &found_comm)
