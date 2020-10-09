@@ -1,0 +1,140 @@
+; Machine starts in state 0.
+
+0 _ _ l q1
+0 1 1 r 0
+0 0 0 r 0
+
+q1 1 1 l q2
+
+q2 1 1 r q3
+q2 0 0 l q11
+
+q3 1 0 l q4
+
+q4 1 1 l q4
+q4 0 0 l q5
+
+q5 1 1 l q6
+
+q6 0 0 l q6
+q6 2 2 l q6
+
+q6 _ < * q20
+q6 1 1 l q7
+
+q7 _ _ r q8
+q7 0 0 r q8
+q7 2 2 r q8
+q7 1 1 l q7
+
+q8 1 2 r q9
+
+q9 1 1 r q9
+q9 0 0 r q10
+
+q10 1 1 r q10
+
+q10 0 0 l q1
+
+q11 1 1 l q12
+
+q12 2 2 l q12
+q12 0 0 l q12
+q12 _ = * q20
+q12 1 1 l q13
+
+q13 1 1 l q13
+q13 2 2 l q13
+q13 0 0 l q13
+q13 _ > * q20
+
+q20 > _ r q19
+q19 2 1 r q19
+q19 0 0 r q19
+q19 1 1 r q108
+q108 1 1 r q108
+q108 0 0 r q01
+q01 1 1 r q01
+q01 0 1 r q01
+q01 _ _ l q21
+
+q21 1 2 l q22
+q22 1 1 l q22
+q22 2 2 l q22
+q22 0 0 l q22
+q22 _ _ r q23
+q23 1 0 r q24
+q23 0 0 r q23
+q24 1 1 r q24
+q24 0 0 r q24
+q24 2 2 r q24
+q24 _ _ l q25
+q25 2 2 l q25
+q25 1 1 * q21
+q25 0 0 l q26
+q26 1 1 l q26
+q26 0 0 l q26
+q26 _ _ l q17
+q17 _ _ l q27
+q27 1 1 l q27
+q27 _ 1 r q18
+
+q18 _ _ r q18
+q18 1 1 r q18
+q18 0 0 r q28
+q28 0 0 r q28
+q28 1 1 r q28
+q28 2 1 r q28
+q28 _ _ l q1
+
+q20 = _ r q30
+q30 1 1 * q50
+q30 0 2 * q50
+q30 2 1 * q50
+
+q20 < _ r q31
+q31 1 3 * q50
+q31 0 4 * q50
+q31 2 3 * q50
+
+q50 1 1 r q51
+q51 1 _ r q51
+q51 2 _ r q51
+q51 0 _ r q51
+q51 _ _ l q52
+q52 _ _ l q52
+q52 1 1 r q53
+q53 _ _ r q54
+q54 _ 0 * halt
+
+q50 2 _ r q55
+q55 2 _ r q55
+q55 1 _ r q55
+q55 0 _ r q55
+q55 _ _ l q56
+q56 _ _ l q56
+q56 1 1 r q57
+q57 _ 1 r q58
+q58 _ _ r q59
+q59 _ 0 * q59
+q59 0 0 * halt
+
+q50 3 1 l q60
+q60 _ _ l q61
+q61 _ 0 r q62
+q62 _ _ r q62
+q62 1 1 r q62
+q62 2 1 r q62
+q62 0 _ r q63
+q63 1 _ r q63
+q63 0 _ r q63
+q63 _ _ * halt
+
+q50 4 _ r q64
+q64 0 _ r q64
+q64 1 1 r q65
+q64 2 1 r q64
+q65 0 _ r q65
+q65 1 _ r q65
+q65 2 _ r q65
+q65 _ _ * halt
