@@ -20,61 +20,45 @@ bool tmachine::read_commands_from_file (FILE *fp)
       if (buf_str[0] == ';')
         continue;
 
-      auto space_pos = buf_str.find_first_of (" ");
-      if (space_pos < 1)
+      std::vector<std::string> tokens = split_string_by_spaces (buf_str);
+      if (tokens.size () < 5)
         {
-          printf ("Cannot parse %s!\n", buf);
+          printf ("Cannot parse command \'%s\'!\n", buf);
           return false;
         }
-      new_command.state_before = buf_str.substr (0, space_pos);
 
-      buf_str = buf_str.substr (space_pos + 1, buf_str.size () - (space_pos + 1));
-
-      space_pos = buf_str.find_first_of (" ");
-      std::string sym_b = buf_str.substr (0, space_pos);
-      if (sym_b.size () > 1)
+      new_command.state_before = tokens[0];
+      if (tokens[1].size () > 1)
         {
-          printf ("Cannot parse %s!\n", buf);
+          printf ("Wrong input symbol in command \'%s\'!\n", buf);
           return false;
         }
-      new_command.symbol_before = sym_b[0];
-
-      buf_str = buf_str.substr (space_pos + 1, buf_str.size () - (space_pos + 1));
-
-      space_pos = buf_str.find_first_of (" ");
-      std::string sym_a = buf_str.substr (0, space_pos);
-      if (sym_a.size () > 1)
+      new_command.symbol_before = tokens[1][0];
+      if (tokens[2].size () > 1)
         {
-          printf ("Cannot parse %s!\n", buf);
+          printf ("Wrong output symbol in command \'%s\'!\n", buf);
           return false;
         }
-      new_command.symbol_after = sym_a[0];
-
-      buf_str = buf_str.substr (space_pos + 1, buf_str.size () - (space_pos + 1));
-
-      space_pos = buf_str.find_first_of (" ");
-      std::string dir = buf_str.substr (0, space_pos);
-      if (sym_a.size () > 1)
+      new_command.symbol_after = tokens[2][0];
+      if (tokens[3].size () > 1)
         {
-          printf ("Cannot parse %s!\n", buf);
+          printf ("Wrong direction in command \'%s\'!\n", buf);
           return false;
         }
-      if (dir[0] == '*')
+      char dirch = tokens[3][0];
+      if (dirch == '*')
         new_command.dir = direction::stay;
-      else if (dir[0] == 'l')
+      else if (dirch == 'l')
         new_command.dir = direction::left;
-      else if (dir[0] == 'r')
+      else if (dirch == 'r')
         new_command.dir = direction::right;
       else
         {
           printf ("Wrong direction in command %s!\n", buf);
           return false;
         }
-
-      buf_str = buf_str.substr (space_pos + 1, buf_str.size () - (space_pos + 1));
-
-      buf_str.pop_back ();
-      new_command.state_after = buf_str;
+      auto space_pos = tokens[4].find_first_of (" ;\n");
+      new_command.state_after = tokens[4].substr (0, space_pos);;
 
       m_commands.push_back (new_command);
     }
@@ -186,5 +170,29 @@ void tmachine::print_commands ()
                                   dirch,
                                   comm.state_after.c_str ());
     }
+}
+
+std::vector<std::string> split_string_by_spaces (const std::string &str)
+{
+  std::vector<std::string> all_words;
+  int str_size = str.size ();
+  std::string word;
+  for (int i = 0; i < str_size; i++)
+    {
+      char ch = str[i];
+      if (ch == ' ')
+        {
+          if (!word.empty ())
+            {
+              all_words.push_back (word);
+              word.clear ();
+            }
+        }
+      else
+        word.push_back (ch);
+    }
+  if (!word.empty ())
+    all_words.push_back (word);
+  return all_words;
 }
 

@@ -51,4 +51,6 @@ private:
   int m_total_steps = 0;
 };
 
+std::vector<std::string> split_string_by_spaces (const std::string &str);
+
 #endif
