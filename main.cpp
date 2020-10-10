@@ -34,13 +34,10 @@ int main (int argc, char *argv[])
 
   //TM.print_commands ();
 
-  std::string flag;
-  if (argc == 4)
-    flag = argv[3];
-
   bool run_to_halt = false;
   if (argc == 4)
     {
+      std::string flag = argv[3];
       if ((flag == "-r") || (flag == "--run"))
         run_to_halt = true;
       else
