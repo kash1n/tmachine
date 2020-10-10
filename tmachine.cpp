@@ -20,6 +20,9 @@ bool tmachine::read_commands_from_file (FILE *fp)
       if (buf_str[0] == ';')
         continue;
 
+      auto comment_pos = buf_str.find_first_of (";");
+      buf_str = buf_str.substr (0, comment_pos);
+
       std::vector<std::string> tokens = split_string_by_spaces (buf_str);
       if (tokens.size () < 5)
         {
