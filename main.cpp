@@ -6,9 +6,9 @@
 
 int main (int argc, char *argv[])
 {
-  if (argc != 3)
+  if (argc != 4 && argc != 3)
     {
-      fprintf (stderr, "Using: %s <command file> <input>\n", argv[0]);
+      fprintf (stderr, "Using: %s <command file> <input> <flag>\n", argv[0]);
       return 1;
     }
 
@@ -34,8 +34,20 @@ int main (int argc, char *argv[])
 
   //TM.print_commands ();
 
-  bool run_step_by_step = true;
-  TM.run (run_step_by_step);
+  std::string flag;
+  if (argc == 4)
+    flag = argv[3];
+
+  bool run_to_halt = false;
+  if ((flag == "-r") || (flag == "--run"))
+    run_to_halt = true;
+  else
+    {
+      fprintf (stderr, "Unknown flag \'%s\'!\n", flag.c_str ());
+      return 1;
+    }
+
+  TM.run (!run_to_halt);
 
   return 0;
 }
