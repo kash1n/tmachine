@@ -39,12 +39,15 @@ int main (int argc, char *argv[])
     flag = argv[3];
 
   bool run_to_halt = false;
-  if ((flag == "-r") || (flag == "--run"))
-    run_to_halt = true;
-  else
+  if (argc == 4)
     {
-      fprintf (stderr, "Unknown flag \'%s\'!\n", flag.c_str ());
-      return 1;
+      if ((flag == "-r") || (flag == "--run"))
+        run_to_halt = true;
+      else
+        {
+          fprintf (stderr, "Unknown flag \'%s\'!\n", flag.c_str ());
+          return 1;
+        }
     }
 
   TM.run (!run_to_halt);
