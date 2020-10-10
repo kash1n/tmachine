@@ -29,7 +29,7 @@ public:
   tmachine (std::string initial_state = "0") { m_current_state = initial_state; }
   ~tmachine () {}
 
-  void run ();
+  void run (bool step_by_step);
   void print_commands ();
 
   void add_command (const command_t command);

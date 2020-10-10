@@ -34,7 +34,8 @@ int main (int argc, char *argv[])
 
   //TM.print_commands ();
 
-  TM.run ();
+  bool run_step_by_step = true;
+  TM.run (run_step_by_step);
 
   return 0;
 }

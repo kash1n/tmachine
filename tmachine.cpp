@@ -88,7 +88,7 @@ void tmachine::set_input (const std::string input_data)
   m_current_pos = 0;
 }
 
-void tmachine::run ()
+void tmachine::run (bool step_by_step)
 {
   while (true)
     {
@@ -115,6 +115,9 @@ void tmachine::run ()
       m_current_state = curr_command.state_after;
       move (curr_command.dir);
       m_total_steps++;
+
+      if (step_by_step)
+        getc (stdin);
     }
 }
 
